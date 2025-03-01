@@ -5,8 +5,9 @@ services:
     container_name: query-service
     networks:
       - query-db-net
-    ports:
-      - "${QUERY_SERVICE_PORT}:${QUERY_SERVICE_PORT}"
+      - api-net
+    # ports:
+    #   - "80:${QUERY_SERVICE_PORT}"
   query-db:
     image: mongo:latest
     container_name: query-db
@@ -25,4 +26,6 @@ volumes:
 
 networks:
   query-db-net:
+    external: true
+  api-net:
     external: true

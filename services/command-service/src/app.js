@@ -172,7 +172,7 @@ app.post("/post/:id/comment", authenticate, async (req, res) => {
 });
 
 // Start server
-const port = process.env.COMMAND_SERVICE_PORT;
+const port = 80;
 app.listen(port, () => {
   console.log(`Command service running on port ${port}`);
 });

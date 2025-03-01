@@ -3,8 +3,8 @@ services:
   command-service:
     build: .
     container_name: command-service
-    ports:
-      - "${COMMAND_SERVICE_PORT}:${COMMAND_SERVICE_PORT}"
+    # ports:
+      # - "80:${COMMAND_SERVICE_PORT}"
     env_file:
       - .env
     depends_on:
@@ -13,6 +13,7 @@ services:
     networks:
       - command-db-net
       - message-broker-net
+      - api-net
     
   command-db:
     image: postgres:latest
@@ -39,4 +40,6 @@ volumes:
 networks:
   command-db-net:
   message-broker-net:
+    external: true
+  api-net:
     external: true

@@ -3,7 +3,7 @@ const express = require("express");
 const { MongoClient, ObjectId } = require("mongodb");
 
 const app = express();
-const PORT = process.env.QUERY_SERVICE_PORT;
+const PORT = 80;
 
 const DATABSE_USER = process.env.QUERY_DATABASE_USER;
 const DATABASE_PASSWORD = process.env.QUERY_DATABASE_PASSWORD;
