@@ -1,78 +1,143 @@
 # Hackernews Clone
 
-## Architecture
+## Setup
 
-![Architecture](./docs//architecture.jpg)
+- Create Docker networks
+```bash
+$ ./scripts/network.sh
+```
 
-## Tasks
+- Run each following command in a separate terminal window in the order they are listed below.
+```bash
+$ cd services/auth-service && docker-compose up --build
+$ cd services/message-broker && docker-compose up --build
+$ cd services/command-service && docker-compose up --build
+$ cd services/query-service && docker-compose up --build
+$ cd services/event-handler && docker-compose up --build
+$ cd services/api-gateway && docker-compose up --build
+```
 
-### Core
-- Write API documentation
-    - [ ] ER Diagram
-    - [ ] API Endpoints
-- Implement Authentication Service
-    - [ ] Setup PostgreSQL
-    - [ ] Sign up
-    - [ ] Sign in
-- Implement Command Service
-    - [ ] Setup PostgreSQL 
-    - [ ] Create post
-    - [ ] Create comment
-- Implement Query Service
-    - [ ] Setup MongoDB
-    - [ ] Get post
-    - [ ] Get comment
-- Implement Event Handler
-    - [ ] Listen to `new_post` topic
-    - [ ] Listen to `new_comment` topic
-- UI
-    - [ ] Sign up
-    - [ ] Sign in
-    - [ ] Post list (home page)
-    - [ ] Post detail
-    - [ ] Create post
+## API Endpoints
 
-### Nice to have
-- [ ] Able to refresh token
-- [ ] Replicate database
-- [ ] Add table `tags`
-- [ ] Denormalize data in Query Service
+- Default port: 3000
 
-## Components
+- Signup
+```json
+// POST /api/auth/signup
+// JSON Body
+{
+  "username": "qninhdt",
+  "display_name": "Quang Ninh",
+  "password": "123456"
+}
+// Response
+{
+  "id": "1",
+  "username": "qninhdt",
+  "display_name": "Quang Ninh",
+  "created_at": "2021-07-01T00:00:00Z"
+}
+```
 
-### API Gateway
-- Use **Nginx** to route requests to the appropriate service.
+- Login
+```json
+// POST /api/auth/signin
+// JSON Body
+{
+  "username": "qninhdt",
+  "password": "123456"
+}
+// Response
+// Save token to local storage
+// Add token to Authorization header when making requests
+// header['Authorization'] = 'Bearer ' + token
+// https://jasonwatmore.com/react-axios-add-bearer-token-authorization-header-to-http-request
+{
+  "token": "eyJhb....",
+}
+```
 
-### Authentication Service
-- Use JWT with asymmetric algorithm (RS256) to sign and verify tokens.
-- Private key is managed by Authentication Service.
-- Public key is shared with other services.
-- Table `users` stores user information.
-- Use `PostgreSQL` as database.
+- Create Post
+```json
+// POST /api/post
+// JSON Body
+{
+  "content": "This is a clone of Hackernews",
+  "tags": ["hackernews", "clone"]
+}
+// Response
+{
+  "id": "1",
+  "author": {
+    "id": "1",
+    "username": "qninhdt",
+    "display_name": "Quang Ninh"
+  },
+  "content": "This is a clone of Hackernews",
+  "tags": ["hackernews", "clone"],
+  "created_at": "2021-07-01T00:00:00Z"
+}
+```
 
-### Command Service
-- Table `posts` stores post information.
-- Table `comments` stores comment information.
-- Table `tags` stores tag information (optional).
-- Use `PostgreSQL` as database.
+- Get Posts
+```json
+// GET /api/post?page=<num>
+// Oder by created_at desc by default
+// Response
+[
+    {
+        "id": "1",
+        "author": {
+            "id": "1",
+            "username": "qninhdt",
+            "display_name": "Quang Ninh"
+        },
+        "content": "This is a clone of Hackernews",
+        "tags": ["hackernews", "clone"],
+        "comment_count": 2,
+        "created_at": "2021-07-01T00:00:00Z"
+    },
+    ...
+]
+```
 
-### Message Queue
-- Use `Kafka` as message queue.
-- Topic `new_post` is used to publish new post.
-- Topic `new_comment` is used to publish new comment.
+- Create Comment
+```json
+// POST /api/post/:post_id/comment
+// JSON Body
+{
+  "content": "This is a comment"
+}
+// Response
+{
+  "id": "1",
+  "author": {
+    "id": "1",
+    "username": "qninhdt",
+    "display_name": "Quang Ninh"
+  },
+  "content": "This is a comment",
+  "created_at": "2021-07-01T00:00:00Z"
+}
+```
 
-### Query Service
-- Table `posts` stores post information.
-- Table `comments` stores comment information.
-- Use `MongoDB` as database.
-- Replicate database to 2-3 nodes (optional).
-- Table `tags` stores tag information (optional).
-- Denormalize data to reduce query complexity (optional).
-
-### Event Handler
-- Listen to `new_post` topic and insert new post to `posts` table.
-- Listen to `new_comment` topic and insert new comment to `comments` table.
-
-## Notes
-- Use as **many programming languages** as possible :D (Python, Javascript, etc).
-- Use **Docker** and **Docker Compose** to manage services (required).
+- Get Comments
+```json
+// GET /api/post/:post_id/comment?page=<num>
+// Oder by created_at desc by default
+// Response
+[
+    {
+        "id": "1",
+        "post_id": "1",
+        "author": {
+            "id": "1",
+            "username": "qninhdt",
+            "display_name": "Quang Ninh"
+        },
+        "content": "This is a comment",
+        "created_at": "2021-07-01T00:00:00Z"
+    },
+    ...
+]
+```
