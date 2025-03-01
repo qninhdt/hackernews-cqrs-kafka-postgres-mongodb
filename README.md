@@ -22,7 +22,7 @@ $ cd services/api-gateway && docker-compose up --build
 - Default port: 3000
 
 - Signup
-```json
+```jsonc
 // POST /api/auth/signup
 // JSON Body
 {
@@ -40,7 +40,7 @@ $ cd services/api-gateway && docker-compose up --build
 ```
 
 - Login
-```json
+```jsonc
 // POST /api/auth/signin
 // JSON Body
 {
@@ -58,7 +58,7 @@ $ cd services/api-gateway && docker-compose up --build
 ```
 
 - Create Post
-```json
+```jsonc
 // POST /api/post
 // JSON Body
 {
@@ -80,7 +80,7 @@ $ cd services/api-gateway && docker-compose up --build
 ```
 
 - Get Posts
-```json
+```jsonc
 // GET /api/post?page=<num>
 // Oder by created_at desc by default
 // Response
@@ -102,7 +102,7 @@ $ cd services/api-gateway && docker-compose up --build
 ```
 
 - Create Comment
-```json
+```jsonc
 // POST /api/post/:post_id/comment
 // JSON Body
 {
@@ -122,7 +122,7 @@ $ cd services/api-gateway && docker-compose up --build
 ```
 
 - Get Comments
-```json
+```jsonc
 // GET /api/post/:post_id/comment?page=<num>
 // Oder by created_at desc by default
 // Response
