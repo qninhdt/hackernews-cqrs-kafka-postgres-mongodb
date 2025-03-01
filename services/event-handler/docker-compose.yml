@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  event-handler:
+    build: .
+    container_name: event-handler
+    networks:
+      - message-broker-net
+      - query-db-net
+
+networks:
+  message-broker-net:
+    external: true
+  query-db-net:
+    external: true

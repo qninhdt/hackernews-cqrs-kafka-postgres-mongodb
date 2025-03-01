@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+  command-service:
+    build: .
+    container_name: command-service
+    ports:
+      - "${COMMAND_SERVICE_PORT}:${COMMAND_SERVICE_PORT}"
+    env_file:
+      - .env
+    depends_on:
+      command-db:
+        condition: service_healthy
+    networks:
+      - command-db-net
+      - message-broker-net
+    
+  command-db:
+    image: postgres:latest
+    container_name: command-db
+    environment:
+      POSTGRES_USER: ${COMMAND_DATABASE_USER}
+      POSTGRES_PASSWORD: ${COMMAND_DATABASE_PASSWORD}
+      POSTGRES_DB: ${COMMAND_DATABASE_NAME}
+    command: "-p ${COMMAND_DATABASE_PORT}"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${COMMAND_DATABASE_USER}"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+    volumes:
+      - command-data:/var/lib/postgresql/data
+    networks:
+      - command-db-net
+
+volumes:
+  command-data:
+    name: command-data
+
+networks:
+  command-db-net:
+  message-broker-net:
+    external: true

@@ -2,7 +2,7 @@ version: '3.8'
 services:
   auth-service:
     build: .
-    container_name: auth-service
+    container_name: aumth-service
     ports:
       - "${AUTH_SERVICE_PORT}:${AUTH_SERVICE_PORT}"
     env_file:
@@ -18,8 +18,6 @@ services:
       POSTGRES_PASSWORD: ${AUTH_DATABASE_PASSWORD}
       POSTGRES_DB: ${AUTH_DATABASE_NAME}
     command: "-p ${AUTH_DATABASE_PORT}"
-    ports:
-      - "${AUTH_DATABASE_PORT}:${AUTH_DATABASE_PORT}"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${AUTH_DATABASE_USER}"]
       interval: 3s
