@@ -15,26 +15,26 @@ conn = psycopg2.connect(
 )
 cursor = conn.cursor()
 
-# # Kafka Producer
-# producer = KafkaProducer(
-#     bootstrap_servers="localhost:9092",
-#     value_serializer=lambda v: json.dumps(v).encode("utf-8"),
-# )
+# Kafka Producer
+producer = KafkaProducer(
+    bootstrap_servers="localhost:9092",
+    value_serializer=lambda v: json.dumps(v).encode("utf-8"),
+)
 
 # API tạo post
 @app.post("/posts/")
 def create_post(user: str, user_id: int, content: str):
     try:
         cursor.execute(
-            "INSERT INTO posts (Username, user_id, content) VALUES (%s, %s, %s) RETURNING id",
+            "INSERT INTO posts (username, user_id, content) VALUES (%s, %s, %s) RETURNING post_id", 
             (user, user_id, content)
         )
         post_id = cursor.fetchone()[0]
         conn.commit()
 
         # Đẩy vào Kafka
-        event_data = {"id": post_id, "user": user, "user_id": user_id, "content": content}
-        # producer.send("post-events", event_data)
+        event_data = {"post_id": post_id, "username": user, "user_id": user_id, "content": content}
+        producer.send("quickstart-events", event_data)
 
         return {"message": "Post created", "post_id": post_id}
     
@@ -53,6 +53,10 @@ def create_comment(post_id: int, user: str, user_id: int, content: str):
         )
         comment_id = cursor.fetchone()[0]
         conn.commit()
+        
+        # Đẩy vào Kafka
+        event_data = {"post_id": post_id, "comment_id": comment_id, "username": user, "user_id": user_id, "content": content}
+        producer.send("comment-events", event_data)
 
         return {"message": "Comment created", "comment_id": comment_id}
     
