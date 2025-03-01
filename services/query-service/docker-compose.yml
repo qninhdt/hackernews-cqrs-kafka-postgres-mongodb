@@ -1,5 +1,12 @@
 version: '3.8'
 services:
+  query-service:
+    build: .
+    container_name: query-service
+    networks:
+      - query-db-net
+    ports:
+      - "${QUERY_SERVICE_PORT}:${QUERY_SERVICE_PORT}"
   query-db:
     image: mongo:latest
     container_name: query-db
