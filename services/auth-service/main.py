@@ -93,4 +93,5 @@ def whoami(request: Request, db: Session = Depends(get_db)):
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("main:app", host="0.0.0.0", port=80, reload=False)
+    port = int(os.getenv("AUTH_SERVICE_PORT"))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
