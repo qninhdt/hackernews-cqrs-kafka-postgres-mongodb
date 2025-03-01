@@ -1,4 +1,4 @@
-import NewPostBig from "@/app/ui/components/home/newPostBig";
+import NewPostBig from "@/app/ui/components/home/newPostForm";
 
 export default function PostCreatePage() {
   return (

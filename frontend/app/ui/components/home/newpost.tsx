@@ -1,7 +1,7 @@
 "use client";
 import UserIcon from "./userIcon";
 import { useState } from "react";
-import NewPostBig from "./newPostBig";
+import NewPostBig from "./newPostForm";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useUser } from "@/app/lib/currentUserContext";
