@@ -12,4 +12,5 @@ export interface Post {
   content: string;
   post_id: string;
   timestamp: string;
+  tags: string;
 }

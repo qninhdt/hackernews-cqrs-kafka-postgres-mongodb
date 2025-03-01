@@ -22,7 +22,7 @@ export default function LoginForm() {
     redirect("/home");
   };
   return (
-    <div className=" font-extrabold bg-white w-full rounded-lg flex flex-col mx-4 py-8 gap-3 items-center">
+    <div className=" font-extrabold bg-white w-full rounded-lg flex flex-col py-8 gap-3 items-center">
       <div>
         <AcmeLogo />
       </div>

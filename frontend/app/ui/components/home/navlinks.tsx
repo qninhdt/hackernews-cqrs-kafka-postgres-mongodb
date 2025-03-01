@@ -2,6 +2,7 @@
 import {
     MagnifyingGlassIcon,
     UserCircleIcon,
+    HomeIcon,
   DocumentDuplicateIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -10,10 +11,15 @@ import clsx from 'clsx';
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
 const links = [
+  {
+    name: "Home",
+    icon: HomeIcon,
+    href: "/home",
+  },
     {
         name: "Explore",
         icon: MagnifyingGlassIcon,
-        href: "/explore",
+        href: "/search",
       },
       {
         name: "Account",
@@ -35,7 +41,7 @@ export default function NavLinks() {
             className={clsx(
               'flex h-[48px] grow items-center justify-center gap-2 rounded-md hover:bg-gray-200 p-3 text-sm font-medium  md:flex-none md:justify-start md:p-2 md:px-3 transition-colors duration-300 ease-in-out',
               {
-                'bg-sky-100 text-blue-600' : pathName == link.href
+                'bg-gray-200 font-semibold' : pathName == link.href
               }
         )}
           >

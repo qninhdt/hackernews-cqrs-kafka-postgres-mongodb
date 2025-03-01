@@ -11,6 +11,7 @@ export default function PostContent({post}: {post: Post}) {
             <div className="flex flex-col text-md">
                 <p>Posted by @{post.author}</p>
                 <p>At {format(new Date(post.timestamp), 'MM/dd/yyyy')}</p>
+                <p>Tags: {post.tags}</p>
             </div>
             <p>{post.content}</p>
         </div>

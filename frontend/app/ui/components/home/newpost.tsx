@@ -7,24 +7,18 @@ import { toast } from "sonner";
 import { useUser } from "@/app/lib/currentUserContext";
 import { redirect } from "next/navigation";
 export default function NewPost() {
-  const [open, setOpen] = useState(false);
   const user = useUser().user;
   const handleClick = () => {
     if (!user) {
       toast.warning("You have to login first!");
       redirect("/login");
     }
-    redirect('/posts/create');
-    
+    redirect("/posts/create");
   };
   return (
-    
-    <div className="bg-white p-4 rounded-lg w-1/2 flex flex-row items-center gap-4">
-      <UserIcon />
-      
-<input
+    <div className="bg-white p-4 rounded-lg w-full md:w-1/2 flex flex-row items-center gap-4">
+      <input
         type="text"
-        disabled={open}
         className="bg-zinc-100 h-10 rounded-full focus:border-0 w-full px-4"
         placeholder="What's on your mind?"
         onClick={handleClick}
