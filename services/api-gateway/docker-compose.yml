@@ -3,9 +3,9 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - "3001:80"
+      - "3000:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - api-net
 
