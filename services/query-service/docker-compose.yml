@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  query-service:
+    build: .
+    container_name: query-service
+    networks:
+      - query-db-net
+      - api-net
+    # ports:
+    #   - "80:${QUERY_SERVICE_PORT}"
+  query-db:
+    image: mongo:latest
+    container_name: query-db
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${QUERY_DATABASE_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${QUERY_DATABASE_PASSWORD}
+    volumes:
+      - query-data:/data/db
+    networks:
+      - query-db-net
+
+volumes:
+  query-data:
+
+networks:
+  query-db-net:
+    external: true
+  api-net:
+    external: true
