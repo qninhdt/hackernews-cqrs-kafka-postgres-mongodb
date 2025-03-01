@@ -1,0 +1,7 @@
+Post:
+http://127.0.0.1:8000/docs#/default/create_post_posts__post : Create new post
+http://127.0.0.1:8000/docs#/default/create_comment_comments__post : Create new comment
+
+Get:
+http://0.0.0.0:8001/docs#/default/get_posts_posts__get: Get post database
+http://0.0.0.0:8001/docs#/default/get_comments_comments__get: Get comment from database
