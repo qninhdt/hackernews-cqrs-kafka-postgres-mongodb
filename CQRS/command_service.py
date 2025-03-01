@@ -34,7 +34,7 @@ def create_post(user: str, user_id: int, content: str):
 
         # Đẩy vào Kafka
         event_data = {"post_id": post_id, "username": user, "user_id": user_id, "content": content}
-        producer.send("quickstart-events", event_data)
+        producer.send("post-created", event_data)
 
         return {"message": "Post created", "post_id": post_id}
     
@@ -56,7 +56,7 @@ def create_comment(post_id: int, user: str, user_id: int, content: str):
         
         # Đẩy vào Kafka
         event_data = {"post_id": post_id, "comment_id": comment_id, "username": user, "user_id": user_id, "content": content}
-        producer.send("comment-events", event_data)
+        producer.send("comments-created", event_data)
 
         return {"message": "Comment created", "comment_id": comment_id}
     
