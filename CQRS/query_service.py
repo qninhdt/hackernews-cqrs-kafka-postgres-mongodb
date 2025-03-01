@@ -22,3 +22,7 @@ def get_posts():
 def get_comments():
     comments = list(comments_collection.find({}, {"_id": 0}))
     return JSONResponse(content={"comments": comments}, media_type="application/json")
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8001)

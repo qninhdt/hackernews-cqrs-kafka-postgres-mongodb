@@ -63,3 +63,4 @@ def create_comment(post_id: int, user: str, user_id: int, content: str):
     except Exception as e:
         conn.rollback()
         raise HTTPException(status_code=500, detail=str(e))
+    
