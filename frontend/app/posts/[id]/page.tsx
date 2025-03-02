@@ -4,11 +4,10 @@ import PostBackBtn from "@/app/ui/components/post/backBtn";
 import PostContent from "@/app/ui/components/post/postContent";
 import { Metadata } from "next";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string };
+export async function generateMetadata(props: {
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
+  const params = await props.params;
   const post = await getPostById({ id: params.id });
   return {
     title: post.title,
@@ -27,8 +26,18 @@ export default async function PostPage(props: {
       <PostContent post={post} />
       <div>
         <form action="" className="flex flex-row justify-center px-4">
-          <input type="text" className="w-full grow focus:outline-none" required placeholder="Leave a comment"/>
-          <button type="submit" className="w-fit h-full px-4 py-2 hover:bg-zinc-200 transition-colors duration-150 ease-in-out rounded-md">Post</button>
+          <input
+            type="text"
+            className="w-full grow focus:outline-none"
+            required
+            placeholder="Leave a comment"
+          />
+          <button
+            type="submit"
+            className="w-fit h-full px-4 py-2 hover:bg-zinc-200 transition-colors duration-150 ease-in-out rounded-md"
+          >
+            Post
+          </button>
         </form>
       </div>
       <CommentsList post_id={post.post_id} />
