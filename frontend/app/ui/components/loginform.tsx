@@ -31,7 +31,7 @@ export default function LoginForm() {
 
       const data = await response.json();
       localStorage.setItem("token", data.access_token);
-
+      document.cookie = `token=${data.access_token}; path=/`;
       // Fetch user information
       const userResponse = await fetch("http://localhost:3001/api/auth/whoami", {
         headers: { Authorization: `Bearer ${data.access_token}` },
@@ -41,7 +41,7 @@ export default function LoginForm() {
       const user = await userResponse.json();
 
       setUser(user);
-      router.push("/home");
+      router.back();
     } catch (err: any) {
       setError(err.message);
     }
