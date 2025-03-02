@@ -22,8 +22,8 @@ export default async function PostThumbnail({ post }: { post: Post }) {
   const numberOfComments = post.comment_count;
   return (
     <Link href={`posts/${post.id}`}>
-      <div className="w-full h-24 bg-white rounded-lg flex flex-row gap-4 overflow-clip">
-        <div className="h-full w-[6px] bg-amber-400"></div>
+      <div className="w-full min-h-24 h-fit bg-white rounded-lg flex flex-row gap-4 overflow-clip">
+        <div className="min-h-24 h-fit w-[6px] bg-amber-400"></div>
         <div className="flex flex-col gap-1 items-start justify-center">
           {post.content.length > 50 ? (
             <p className="uppercase text-xl font-bold hover:underline">

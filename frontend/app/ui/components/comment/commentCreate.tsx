@@ -2,10 +2,24 @@
 
 import { createComment } from "@/app/lib/action";
 import { useUser } from "@/app/lib/currentUserContext"
+import { useEffect, useState } from "react";
 export default function CreateComment({id} : {id: string}) {
-    const token = localStorage.getItem("token") || ""
-    const createCommentWithParams = createComment.bind(null, {id:id, token:token});
-    const { user } = useUser();
+  const [token, setToken] = useState<string | null>(null);
+  const [input, setInput] = useState<string>("");
+  const { user } = useUser();
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    setToken(storedToken);
+  }, []);
+
+  const createCommentWithParams = (formData: FormData) => {
+    if (token) {
+      createComment({ id, token }, formData);
+    } else {
+      alert("Token is not available. Please log in again.");
+    }
+  };
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -15,6 +29,10 @@ export default function CreateComment({id} : {id: string}) {
         }
         const formData = new FormData(event.currentTarget);
         createCommentWithParams(formData);
+        setInput("");
+    }
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+      setInput(e.target.value)
     }
     return (
         <div>
@@ -26,6 +44,8 @@ export default function CreateComment({id} : {id: string}) {
             placeholder="Leave a comment"
             id="comment"
             name="comment"
+            onChange={handleChange}
+            value={input}
           />
           <button
             type="submit"

@@ -41,6 +41,12 @@ export default function LoginForm() {
       const user = await userResponse.json();
 
       setUser(user);
+      // add the logic that if the last page is signup, redirect to home 
+      if (document.referrer.includes("/signup")) {
+        router.push("/home");
+      } else {
+        router.back();
+      }
       router.back();
     } catch (err: any) {
       setError(err.message);
