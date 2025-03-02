@@ -16,7 +16,11 @@ $ cd services/query-service && docker-compose up --build
 $ cd services/event-handler && docker-compose up --build
 $ cd services/api-gateway && docker-compose up --build
 ```
-
+Use 
+```bash
+docker compose instead of docker-compose
+```
+if you use the latest docker version
 ## API Endpoints
 
 - Default port: 3000
