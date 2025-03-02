@@ -101,6 +101,24 @@ $ cd services/api-gateway && docker-compose up --build
 ]
 ```
 
+- Get Post By ID
+```jsonc
+// GET /api/post/:post_id
+// Response
+{
+  "id": "1",
+  "author": {
+    "id": "1",
+    "username": "qninhdt",
+    "display_name": "Quang Ninh"
+  },
+  "content": "This is a clone of Hackernews",
+  "tags": ["hackernews", "clone"],
+  "comment_count": 2,
+  "created_at": "2021-07-01T00:00:00Z"
+}
+```
+
 - Create Comment
 ```jsonc
 // POST /api/post/:post_id/comment
