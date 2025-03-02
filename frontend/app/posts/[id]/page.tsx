@@ -10,7 +10,7 @@ export async function generateMetadata(props: {
   const params = await props.params;
   const post = await getPostById({ id: params.id });
   return {
-    title: post.title,
+    title: post.content.slice(0,10),
   };
 }
 

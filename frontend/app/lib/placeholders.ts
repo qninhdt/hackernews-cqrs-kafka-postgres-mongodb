@@ -3,26 +3,22 @@ import User from "./definitions";
 
 const user1: User = {
   username: "john_doe",
-  email: "john@example.com",
-  password: "password123",
+  display_name: "john doe",
+
   id: "1",
-  avatar: "https://example.com/avatar1.png"
+
 };
 
 const user2: User = {
   username: "alice_johnson",
-  email: "alice@example.com",
-  password: "password123",
+  display_name: "Alice",
   id: "2",
-  avatar: "https://example.com/avatar2.png"
 };
 
 const user3: User = {
   username: "chris_lee",
-  email: "chris@example.com",
-  password: "password123",
   id: "3",
-  avatar: "https://example.com/avatar3.png"
+  display_name: "Chris"
 };
 export const listUsers: User[] = [user1, user2, user3]
 
@@ -56,76 +52,64 @@ In essence, understanding closures is paramount for writing efficient, maintaina
 export const listposts: Post[] = [
   {
     
-    author_id: user1.id,
-    title: "Understanding JavaScript Closures",
+    author: user1,
     content: text2,
     post_id: "1",
     timestamp: "2025-01-01T10:00:00Z",
     tags: [
-      { id: 1, name: "JavaScript" },
-      { id: 2, name: "Closures" },
-      { id: 3, name: "Programming" }
+      "JavaScript", "Closures"
     ]
   },
   {
     
-    author_id: user2.id,
-    title: "A Guide to React Hooks",
+    author: user2,
     content: "React hooks are a powerful feature that allow you to use state and other React features without writing a class. This post will cover the basics of hooks and how to use them.",
     post_id: "2",
     timestamp: "2025-02-15T12:00:00Z",
-    tags: [
-      { id: 4, name: "React" },
-      { id: 5, name: "Hooks" },
-      { id: 6, name: "JavaScript" }
-    ]
+    tags: [ "React", "Hooks", "JavaScript"]
   },
   {
     
-    author_id: user3.id,
-    title: "CSS Grid Layout: A Comprehensive Guide",
+    author: user3,
     content: "CSS Grid Layout is a two-dimensional layout system for the web. It lets you layout items in rows and columns, and it has many powerful features. This guide will cover everything you need to know to get started with CSS Grid.",
     post_id: "3",
     timestamp: "2025-03-10T14:00:00Z",
-    tags: [
-      { id: 7, name: "CSS" },
-      { id: 8, name: "Grid" },
-      { id: 9, name: "Web Design" }
+    tags: [ "CSS", "Web Design"
     ]
   }
 ];
 export const comments: Comment[] = [
   {
     id: "1",
-    author_id: user1.id,
+    author: user1,
     content: "Great post! I finally understand closures.",
     post_id: "1",
     timestamps: "2025-01-01T12:00:00Z"
   },
   {
     id: "2",
-    author_id: user2.id,
+    author: user2,
     content: "Thanks for the detailed explanation on hooks.",
     post_id: "2",
     timestamps: "2025-02-15T14:00:00Z"
   },
   {
     id: "3",
-    author_id: user3.id,
+    author: user3,
     content: "CSS Grid is amazing! This guide is very helpful.",
     post_id: "3",
     timestamps: "2025-03-10T16:00:00Z"
   },
   {
     id: "4",
-    author_id: user1.id,
+    author: user1,
     content: "I have a question about the useEffect hook.",
     post_id: "2",
     timestamps: "2025-02-16T10:00:00Z"
   },
   {
     id: "5",
-    author_id: user2.id,
+    author: user2,
     content: "Can you provide more examples on CSS Grid?",
     post_id: "3",
     timestamps: "2025-03-11T09:00:00Z"
