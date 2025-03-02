@@ -12,9 +12,9 @@ $ ./scripts/network.sh
 $ cd services/auth-service && docker-compose up --build
 $ cd services/message-broker && docker-compose up --build
 $ cd services/command-service && docker-compose up --build
-$ cd services/query-service && docker-compose up --build
-$ cd services/event-handler && docker-compose up --build
-$ cd services/api-gateway && docker-compose up --build
+$ cd services/query-service && docker compose up --build
+$ cd services/event-handler && docker compose up --build
+$ cd services/api-gateway && docker compose up --build
 ```
 Use 
 ```bash
