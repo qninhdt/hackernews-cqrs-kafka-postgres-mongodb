@@ -1,45 +1,72 @@
 "use client";
-import { GreenButton, ForgotPasswordButton, BlueButton } from "./buttons";
+import { GreenButton, ForgotPasswordButton } from "./buttons";
 import AcmeLogo from "../logo";
-import Link from "next/link";
-import User from "@/app/lib/definitions";
-import { FormEvent, use, useContext } from "react";
+import { useState } from "react";
 import { useUser } from "@/app/lib/currentUserContext";
-import { redirect } from "next/navigation";
-const defaultUser: User = {
-  username: "admin",
-  email: "a@a.com",
-  password: "pswd",
-  id: 123,
-  avatar: "/ganyu.jpeg",
-};
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
-  const setUser = useUser().setUser;
-  const handleClick = (e: FormEvent<HTMLFormElement>) => {
+  const { setUser } = useUser();
+  const router = useRouter();
+  const [error, setError] = useState("");
+
+  const handleClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setUser(defaultUser);
-    redirect("/home");
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+    const username = formData.get("username") as string;
+    const password = formData.get("password") as string;
+
+    try {
+      const response = await fetch("http://localhost:3001/api/auth/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Invalid username or password");
+      }
+
+      const data = await response.json();
+      localStorage.setItem("token", data.access_token);
+
+      // Fetch user information
+      const userResponse = await fetch("http://localhost:3001/api/auth/whoami", {
+        headers: { Authorization: `Bearer ${data.access_token}` },
+      });
+
+      if (!userResponse.ok) throw new Error("Failed to fetch user data");
+      const user = await userResponse.json();
+
+      setUser(user);
+      router.push("/home");
+    } catch (err: any) {
+      setError(err.message);
+    }
   };
+
   return (
-    <div className=" font-extrabold bg-white w-full rounded-lg flex flex-col mx-4 py-8 gap-3 items-center">
+    <div className="font-extrabold bg-white w-full rounded-lg flex flex-col py-8 gap-3 items-center">
       <div>
         <AcmeLogo />
       </div>
-      <form onSubmit={(e) => handleClick(e)} className="flex flex-col  gap-3">
+      <form onSubmit={handleClick} className="flex flex-col gap-3">
         <input
           type="text"
-          placeholder="username"
-          id="username"
+          name="username"
+          placeholder="Username"
+          required
           className="border border-zinc-200 rounded-lg px-4 py-2"
         />
-
         <input
           type="password"
-          placeholder="password"
+          name="password"
+          placeholder="Password"
+          required
           className="border border-zinc-200 rounded-lg px-4 py-2"
         />
-        {/* will be implemented in the next section */}
         <button
           type="submit"
           className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300 ease-in-out"
@@ -48,6 +75,7 @@ export default function LoginForm() {
         </button>
         <ForgotPasswordButton />
       </form>
+      {error && <p className="text-red-500">{error}</p>}
       <div className="mt-4 pt-8 border-t border-zinc-200 w-full h-full flex items-center justify-center">
         <GreenButton value="Create an account" href="/signup" />
       </div>
